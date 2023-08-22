@@ -39,6 +39,12 @@ public class CompanyController {
     @ResponseStatus(HttpStatus.CREATED)
     public Company addCompany(@RequestBody Company company){
         return companyRepository.addCompany(company);
+    }
 
+    @PutMapping("/{companyId}")
+    public Company updateCompany(@PathVariable Long companyId, @RequestBody Company newCompany){
+        Company company = companyRepository.findCompanyById(companyId);
+        company.setCompanyName(newCompany.getCompanyName());
+        return company;
     }
 }
