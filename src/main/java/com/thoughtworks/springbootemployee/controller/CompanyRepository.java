@@ -50,4 +50,8 @@ public class CompanyRepository {
                 .max()
                 .orElse(EMPTY_LIST_SIZE) + ID_INCREMENT;
     }
+
+    public void deleteCompany(Company company){
+        companies.remove(company);
+    }
 }
