@@ -1,6 +1,5 @@
 package com.thoughtworks.springbootemployee.controller;
 
-import com.thoughtworks.springbootemployee.exception.CompanyNotFoundException;
 import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,18 +15,18 @@ public class EmployeeController {
     private EmployeeRepository employeeRepository;
 
     @GetMapping
-    public List<Employee> listAll() {
-        return employeeRepository.listAll();
+    public List<Employee> listAllEmployees() {
+        return employeeRepository.listAllEmployees();
     }
 
     @GetMapping("/{id}")
-    public Employee findById(@PathVariable Long id) {
-        return employeeRepository.findById(id);
+    public Employee findEmployeeById(@PathVariable Long id) {
+        return employeeRepository.findByEmployeeId(id);
     }
 
     @GetMapping(params = {"gender"})
-    public List<Employee> findByGender(@RequestParam String gender) {
-        return employeeRepository.findByGender(gender);
+    public List<Employee> findEmployeesByGender(@RequestParam String gender) {
+        return employeeRepository.findEmployeesByGender(gender);
     }
 
     @PostMapping
@@ -39,7 +38,7 @@ public class EmployeeController {
 
     @PutMapping("/{id}")
     public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee newEmployee) {
-        Employee employee = employeeRepository.findById(id);
+        Employee employee = employeeRepository.findByEmployeeId(id);
         employee.setAge(newEmployee.getAge());
         employee.setSalary(newEmployee.getSalary());
         return employee;
@@ -47,13 +46,13 @@ public class EmployeeController {
 
     @DeleteMapping("/{employeeId}")
     public void deleteEmployee(@PathVariable Long employeeId){
-        Employee employee = employeeRepository.findById(employeeId);
+        Employee employee = employeeRepository.findByEmployeeId(employeeId);
         if(employee == null){ throw new EmployeeNotFoundException(); }
         employeeRepository.deleteEmployee(employee);
     }
 
     @GetMapping(params = {"pageNumber", "pageSize"})
-    public List<Employee> listByPage(@RequestParam Long pageNumber, @RequestParam Long pageSize) {
-        return employeeRepository.listByPage(pageNumber, pageSize);
+    public List<Employee> listEmployeesByPage(@RequestParam Long pageNumber, @RequestParam Long pageSize) {
+        return employeeRepository.listEmployeesByPage(pageNumber, pageSize);
     }
 }

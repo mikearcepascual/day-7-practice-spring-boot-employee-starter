@@ -18,6 +18,7 @@ public class CompanyRepository {
         companies.add(new Company(2L, "OOCL"));
         companies.add(new Company(3L, "COSCO"));
     }
+
     public List<Company> listAllCompanies() {
         return companies;
     }
@@ -51,7 +52,7 @@ public class CompanyRepository {
                 .orElse(EMPTY_LIST_SIZE) + ID_INCREMENT;
     }
 
-    public void deleteCompany(Company company){
+    public void deleteCompany(Company company) {
         companies.remove(company);
     }
 }
