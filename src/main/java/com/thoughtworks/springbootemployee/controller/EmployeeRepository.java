@@ -65,4 +65,8 @@ public class EmployeeRepository {
                 .limit(pageSize)
                 .collect(Collectors.toList());
     }
+
+    public void deleteEmployee(Employee employee) {
+        employees.remove(employee);
+    }
 }

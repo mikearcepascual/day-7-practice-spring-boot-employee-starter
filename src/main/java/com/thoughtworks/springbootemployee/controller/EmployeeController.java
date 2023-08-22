@@ -1,5 +1,7 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.exception.CompanyNotFoundException;
+import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +43,13 @@ public class EmployeeController {
         employee.setAge(newEmployee.getAge());
         employee.setSalary(newEmployee.getSalary());
         return employee;
+    }
+
+    @DeleteMapping("/{employeeId}")
+    public void deleteEmployee(@PathVariable Long employeeId){
+        Employee employee = employeeRepository.findById(employeeId);
+        if(employee == null){ throw new EmployeeNotFoundException(); }
+        employeeRepository.deleteEmployee(employee);
     }
 
     @GetMapping(params = {"pageNumber", "pageSize"})
