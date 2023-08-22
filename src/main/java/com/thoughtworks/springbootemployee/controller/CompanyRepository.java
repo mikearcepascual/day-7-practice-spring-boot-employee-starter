@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.exception.CompanyNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -16,5 +17,12 @@ public class CompanyRepository {
     }
     public List<Company> listAllCompanies() {
         return companies;
+    }
+
+    public Company findCompanyById(Long companyId) {
+        return companies.stream()
+                .filter(company -> company.getCompanyId().equals(companyId))
+                .findFirst()
+                .orElseThrow(CompanyNotFoundException::new);
     }
 }
