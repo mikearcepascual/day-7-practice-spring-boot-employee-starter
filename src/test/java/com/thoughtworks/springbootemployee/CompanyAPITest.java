@@ -77,23 +77,19 @@ class CompanyAPITest {
                 .andExpect(jsonPath("$.companyName").value("Google"));
 
     }
-//
-//    @Test
-//    void should_return_employee_when_perform_put_employees_given_an_employee_id() throws Exception {
-//        //given
-//        Employee alice = employeeRepository.addEmployee(
-//                new Employee("Alice",23,"Female",9000,1L));
-//        alice.setEmployeeActive(Boolean.TRUE);
-//        Employee newAlice = new Employee("Alice",24,"Female",10000,1L);
-//        newAlice.setEmployeeActive(Boolean.TRUE);
-//        //when, then
-//        mockMvcClient.perform(MockMvcRequestBuilders.put("/employees/" + alice.getId())
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(new ObjectMapper().writeValueAsString(newAlice)))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.age").value(newAlice.getAge()))
-//                .andExpect(jsonPath("$.salary").value(newAlice.getSalary()));
-//    }
+
+    @Test
+    void should_return_company_when_perform_put_companies_given_an_company_id() throws Exception {
+        //given
+        Company company = companyRepository.addCompany(new Company("Google"));
+        Company newCompany = new Company("Alphabet");
+        //when, then
+        mockMvcClient.perform(MockMvcRequestBuilders.put("/companies/" + company.getCompanyId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(newCompany)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.companyName").value(newCompany.getCompanyName()));
+    }
 //
 //    @Test
 //    void should_return_204_no_content_when_perform_delete_employee_given_an_employee_id() throws Exception{
