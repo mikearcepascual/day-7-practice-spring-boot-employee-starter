@@ -121,13 +121,12 @@ public class EmployeeServiceTest {
     @Test
     void should_return_EmployeeInactiveException_when_update_given_employee_service_and_employee_and_is_active_false() {
         Employee employee = new Employee(1L, "Lucy", 20, "Female", 3000, 1L);
-        employee.setEmployeeActive(Boolean.TRUE);
-        Employee newEmployee = new Employee(1L, "Lucy", 21, "Female", 4000, 1L);
-        newEmployee.setEmployeeActive(Boolean.FALSE);
+        employee.setEmployeeActive(Boolean.FALSE);
         //when
+        when(mockedEmployeeRepository.findByEmployeeId(employee.getId())).thenReturn(employee);
         //then
         EmployeeInactiveException employeeInactiveException = assertThrows(EmployeeInactiveException.class, () ->
-            employeeService.updateEmployee(employee.getId(), newEmployee)
+            employeeService.updateEmployee(employee.getId(), employee)
         );
         assertEquals("Employee is inactive", employeeInactiveException.getMessage());
     }
