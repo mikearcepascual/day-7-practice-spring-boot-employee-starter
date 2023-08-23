@@ -97,6 +97,7 @@ class SpringBootEmployeeApplicationTests {
 	void should_return_employee_when_perform_post_employees_given_a_new_employee_with_JSON_format() throws Exception{
 	//given
 		Employee newEmployee = new Employee("Alice",23,"Female",9000,1L);
+		newEmployee.setActive(Boolean.TRUE);
 	 //when, then
 		mockMvcClient.perform(MockMvcRequestBuilders.post("/employees/")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -115,7 +116,9 @@ class SpringBootEmployeeApplicationTests {
 	//given
 		Employee alice = employeeRepository.addEmployee(
 				new Employee("Alice",23,"Female",9000,1L));
-		Employee newAlice = new Employee(alice.getId(),"Alice",24,"Female",10000,1L,true);
+		alice.setActive(Boolean.TRUE);
+		Employee newAlice = new Employee(alice.getId(),"Alice",24,"Female",10000,1L);
+		newAlice.setActive(Boolean.TRUE);
 	 //when, then
 		mockMvcClient.perform(MockMvcRequestBuilders.put("/employees/" + alice.getId())
 				.contentType(MediaType.APPLICATION_JSON)
