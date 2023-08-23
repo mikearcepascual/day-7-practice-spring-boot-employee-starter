@@ -45,4 +45,20 @@ class SpringBootEmployeeApplicationTests {
 				.andExpect(jsonPath("$[0].salary").value(alice.getSalary()))
 				.andExpect(jsonPath("$[0].companyId").value(alice.getCompanyId()));
 	}
+	@Test
+	void should_return_the_employee_when_perform_get_employees_given_an_employee_id() throws Exception{
+		//given
+		Employee alice = employeeRepository.addEmployee(
+				new Employee("Alice",24,"Female",9000,1L));
+		employeeRepository.addEmployee(new Employee("Bob",28,"Male",8000,2L));
+		//when
+		mockMvcClient.perform(MockMvcRequestBuilders.get("/employees/" + alice.getId()))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.id").value(alice.getId()))
+				.andExpect(jsonPath("$.name").value(alice.getName()))
+				.andExpect(jsonPath("$.age").value(alice.getAge()))
+				.andExpect(jsonPath("$.gender").value(alice.getGender()))
+				.andExpect(jsonPath("$.salary").value(alice.getSalary()))
+				.andExpect(jsonPath("$.companyId").value(alice.getCompanyId()));
+	}
 }
