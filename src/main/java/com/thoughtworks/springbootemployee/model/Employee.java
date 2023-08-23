@@ -58,7 +58,7 @@ public class Employee {
         return companyId;
     }
 
-    public boolean isEmployeeActive()
+    public Boolean isEmployeeActive()
     {
         return isEmployeeActive;
     }
@@ -69,7 +69,7 @@ public class Employee {
         age = employee.getAge();
     }
 
-    public void setActive(boolean isEmployeeActive) {
+    public void setEmployeeActive(boolean isEmployeeActive) {
         this.isEmployeeActive = isEmployeeActive;
     }
 }

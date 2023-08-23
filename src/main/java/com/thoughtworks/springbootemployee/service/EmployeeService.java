@@ -24,13 +24,14 @@ public class EmployeeService {
 
     public void deleteEmployee(Long id) {
         Employee matchedEmployee = employeeRepository.findByEmployeeId(id);
-        matchedEmployee.setActive(Boolean.FALSE);
+        matchedEmployee.setEmployeeActive(Boolean.FALSE);
 
         employeeRepository.updateEmployee(id,matchedEmployee);
     }
 
     public void updateEmployee(Long id, Employee newEmployee) {
-        if(!newEmployee.isEmployeeActive()){
+        Employee employeeToBeUpdated = employeeRepository.findByEmployeeId(id);
+        if(!employeeToBeUpdated.isEmployeeActive()){
             throw new EmployeeInactiveException();
         }
         employeeRepository.updateEmployee(id,newEmployee);

@@ -56,7 +56,7 @@ public class EmployeeRepository {
                 employee.getGender(), employee.getSalary(), employee.getCompanyId());
 
         employees.add(newEmployee);
-        newEmployee.setActive(Boolean.TRUE);
+        newEmployee.setEmployeeActive(Boolean.TRUE);
         return newEmployee;
     }
 
