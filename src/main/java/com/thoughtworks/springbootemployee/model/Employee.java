@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.model;
 public class Employee {
     public static final int MAX_EMPLOYEE_AGE = 65;
     public static final int MIN_EMPLOYEE_AGE = 18;
+    private boolean isEmployeeActive;
     private Long companyId;
     private Long id;
     private String name;
@@ -13,13 +14,14 @@ public class Employee {
     public Employee(){
 
     }
-    public Employee(Long id, String name, Integer age, String gender, Integer salary, Long companyId) {
+    public Employee(Long id, String name, Integer age, String gender, Integer salary, Long companyId, boolean isEmployeeActive) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
         this.companyId = companyId;
+        this.isEmployeeActive = isEmployeeActive;
     }
     public Employee(String name, Integer age, String gender, Integer salary, Long companyId) {
         this.companyId = companyId;
@@ -63,5 +65,10 @@ public class Employee {
 
     public Long getCompanyId() {
         return companyId;
+    }
+
+    public boolean getEmployeeStatus()
+    {
+        return isEmployeeActive;
     }
 }

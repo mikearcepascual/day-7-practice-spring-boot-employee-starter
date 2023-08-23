@@ -115,7 +115,7 @@ class SpringBootEmployeeApplicationTests {
 	//given
 		Employee alice = employeeRepository.addEmployee(
 				new Employee("Alice",23,"Female",9000,1L));
-		Employee newAlice = new Employee(alice.getId(),"Alice",24,"Female",10000,1L);
+		Employee newAlice = new Employee(alice.getId(),"Alice",24,"Female",10000,1L,true);
 	 //when, then
 		mockMvcClient.perform(MockMvcRequestBuilders.put("/employees/" + alice.getId())
 				.contentType(MediaType.APPLICATION_JSON)
