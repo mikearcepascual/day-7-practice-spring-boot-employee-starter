@@ -27,7 +27,7 @@ public class EmployeeServiceTest {
         Employee savedEmployee = new Employee(1L, "Lucy", 20, "Female", 3000, 1L);
         when(mockedEmployeeRepository.addEmployee(employee)).thenReturn(savedEmployee);
         //when
-        Employee employeeResponse = employeeService.create(employee);
+        Employee employeeResponse = employeeService.createEmployee(employee);
         //then
         assertEquals(savedEmployee.getId(), employeeResponse.getId());
         assertEquals("Lucy", employeeResponse.getName());
@@ -43,7 +43,7 @@ public class EmployeeServiceTest {
         Employee employee = new Employee(null, "Lucy", 17, "Female", 3000, 1L);
         //when// then
         EmployeeCreateException employeeCreateException = assertThrows(EmployeeCreateException.class, () -> {
-            employeeService.create(employee);
+            employeeService.createEmployee(employee);
         });
         assertEquals("Employee must be 18-65 years old", employeeCreateException.getMessage());
     }
@@ -54,7 +54,7 @@ public class EmployeeServiceTest {
         Employee employee = new Employee(null, "Lucy", 66, "Female", 3000, 1L);
         //when// then
         EmployeeCreateException employeeCreateException = assertThrows(EmployeeCreateException.class, () -> {
-            employeeService.create(employee);
+            employeeService.createEmployee(employee);
         });
         assertEquals("Employee must be 18-65 years old", employeeCreateException.getMessage());
     }
@@ -66,7 +66,7 @@ public class EmployeeServiceTest {
         savedEmployee.setActive(Boolean.TRUE);
         when(mockedEmployeeRepository.addEmployee(employee)).thenReturn(savedEmployee);
         //when
-        Employee employeeResponse = employeeService.create(employee);
+        Employee employeeResponse = employeeService.createEmployee(employee);
         //then
         assertTrue(employeeResponse.isEmployeeActive());
         assertEquals(savedEmployee.getId(), employeeResponse.getId());
@@ -84,7 +84,7 @@ public class EmployeeServiceTest {
         employee.setActive(Boolean.TRUE);
         when(mockedEmployeeRepository.findByEmployeeId(employee.getId())).thenReturn(employee);
         //when
-        employeeService.delete(employee.getId());
+        employeeService.deleteEmployee(employee.getId());
         //then
         verify(mockedEmployeeRepository).updateEmployee(eq(employee.getId()), argThat(tempEmployee -> {
             assertFalse(tempEmployee.isEmployeeActive());
@@ -105,7 +105,7 @@ public class EmployeeServiceTest {
         newEmployee.setActive(Boolean.TRUE);
         when(mockedEmployeeRepository.findByEmployeeId(employee.getId())).thenReturn(employee);
         //when
-        employeeService.update(employee.getId(), newEmployee);
+        employeeService.updateEmployee(employee.getId(), newEmployee);
         //then
         verify(mockedEmployeeRepository).updateEmployee(eq(employee.getId()), argThat(tempEmployee -> {
             assertTrue(tempEmployee.isEmployeeActive());
@@ -126,9 +126,9 @@ public class EmployeeServiceTest {
         newEmployee.setActive(Boolean.FALSE);
         //when
         //then
-        EmployeeInactiveException employeeInactiveException = assertThrows(EmployeeInactiveException.class, () -> {
-            employeeService.update(employee.getId(), newEmployee);
-        });
+        EmployeeInactiveException employeeInactiveException = assertThrows(EmployeeInactiveException.class, () ->
+            employeeService.updateEmployee(employee.getId(), newEmployee)
+        );
         assertEquals("Employee is inactive", employeeInactiveException.getMessage());
     }
 }

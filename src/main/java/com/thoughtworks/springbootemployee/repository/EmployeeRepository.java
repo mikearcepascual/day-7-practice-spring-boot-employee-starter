@@ -74,17 +74,12 @@ public class EmployeeRepository {
                 .collect(Collectors.toList());
     }
 
-    public void deleteEmployee(Employee employee) {
-        employees.remove(employee);
-    }
-
     public void cleanAll() {
         employees.clear();
     }
 
-    public Employee updateEmployee(Long id, Employee employee) {
+    public void updateEmployee(Long id, Employee employee) {
         Employee employeeToUpdate = findByEmployeeId(id);
         employeeToUpdate.merge(employee);
-        return employeeToUpdate;
     }
 }

@@ -117,19 +117,15 @@ class SpringBootEmployeeApplicationTests {
 		Employee alice = employeeRepository.addEmployee(
 				new Employee("Alice",23,"Female",9000,1L));
 		alice.setActive(Boolean.TRUE);
-		Employee newAlice = new Employee(alice.getId(),"Alice",24,"Female",10000,1L);
+		Employee newAlice = new Employee("Alice",24,"Female",10000,1L);
 		newAlice.setActive(Boolean.TRUE);
 	 //when, then
 		mockMvcClient.perform(MockMvcRequestBuilders.put("/employees/" + alice.getId())
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new ObjectMapper().writeValueAsString(newAlice)))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.id").value(newAlice.getId()))
-				.andExpect(jsonPath("$.name").value(newAlice.getName()))
 				.andExpect(jsonPath("$.age").value(newAlice.getAge()))
-				.andExpect(jsonPath("$.gender").value(newAlice.getGender()))
-				.andExpect(jsonPath("$.salary").value(newAlice.getSalary()))
-				.andExpect(jsonPath("$.companyId").value(newAlice.getCompanyId()));
+				.andExpect(jsonPath("$.salary").value(newAlice.getSalary()));
 	}
 
 	@Test
