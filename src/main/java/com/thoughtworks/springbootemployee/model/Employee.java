@@ -27,6 +27,10 @@ public class Employee {
         this.salary = salary;
     }
 
+    public boolean hasInvalidAge() {
+       return getAge() < 18;
+    }
+
     public Long getId() {
         return id;
     }
