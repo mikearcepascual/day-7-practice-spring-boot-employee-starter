@@ -1,6 +1,8 @@
 package com.thoughtworks.springbootemployee.model;
 
 public class Employee {
+    public static final int MAX_EMPLOYEE_AGE = 65;
+    public static final int MIN_EMPLOYEE_AGE = 18;
     private Long companyId;
     private Long id;
     private String name;
@@ -28,7 +30,7 @@ public class Employee {
     }
 
     public boolean hasInvalidAge() {
-       return getAge() < 18;
+       return getAge() < MIN_EMPLOYEE_AGE || getAge() > MAX_EMPLOYEE_AGE;
     }
 
     public Long getId() {
