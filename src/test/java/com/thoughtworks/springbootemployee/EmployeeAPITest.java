@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
@@ -136,5 +138,32 @@ class EmployeeAPITest {
 	 //when, then
 		mockMvcClient.perform(MockMvcRequestBuilders.delete("/employees/" + alice.getId()))
 				.andExpect(status().isNoContent());
+	}
+
+	@Test
+	void should_return_list_of_employees_when_get_employees_given_pageNumber_and_pageSize() throws Exception {
+		//given
+		Long pageNumber = 1L;
+		Long pageSize = 2L;
+		Employee alice = employeeRepository.addEmployee(new Employee("Alice", 24, "Female", 9000, 1L));
+		Employee bob = employeeRepository.addEmployee(new Employee("Bob", 24, "Male", 9000, 2L));
+		MultiValueMap<String,String> paramsMap = new LinkedMultiValueMap<>();
+		paramsMap.add("pageNumber", pageNumber.toString());
+		paramsMap.add("pageSize", pageSize.toString());
+
+		//when
+		mockMvcClient.perform(MockMvcRequestBuilders.get("/employees/").params(paramsMap))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$", hasSize(2)))
+				.andExpect(jsonPath("$[0].name").value(alice.getName()))
+				.andExpect(jsonPath("$[0].age").value(alice.getAge()))
+				.andExpect(jsonPath("$[0].gender").value(alice.getGender()))
+				.andExpect(jsonPath("$[0].salary").value(alice.getSalary()))
+				.andExpect(jsonPath("$[1].name").value(bob.getName()))
+				.andExpect(jsonPath("$[1].age").value(bob.getAge()))
+				.andExpect(jsonPath("$[1].gender").value(bob.getGender()))
+				.andExpect(jsonPath("$[1].salary").value(bob.getSalary()));
+
+		//then
 	}
 }

@@ -12,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
@@ -98,5 +100,25 @@ class CompanyAPITest {
         //when, then
         mockMvcClient.perform(MockMvcRequestBuilders.delete("/companies/" + google.getCompanyId()))
                 .andExpect(status().isNoContent());
+    }
+    @Test
+    void should_return_list_of_employees_when_get_employees_given_pageNumber_and_pageSize() throws Exception {
+        //given
+        Long pageNumber = 1L;
+        Long pageSize = 2L;
+        Company google = companyRepository.addCompany(new Company("Google"));
+        Company facebook = companyRepository.addCompany(new Company("Facebook"));
+        MultiValueMap<String,String> paramsMap = new LinkedMultiValueMap<>();
+        paramsMap.add("pageNumber", pageNumber.toString());
+        paramsMap.add("pageSize", pageSize.toString());
+
+        //when
+        mockMvcClient.perform(MockMvcRequestBuilders.get("/companies/").params(paramsMap))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].companyName").value(google.getCompanyName()))
+                .andExpect(jsonPath("$[1].companyName").value(facebook.getCompanyName()));
+
+        //then
     }
 }
