@@ -44,23 +44,16 @@ class CompanyAPITest {
                 .andExpect(jsonPath("$[0].companyName").value(google.getCompanyName()));
 
     }
-//    @Test
-//    void should_return_the_employee_when_perform_get_employees_given_an_employee_id() throws Exception{
-//        //given
-//        Employee alice = employeeRepository.addEmployee(
-//                new Employee("Alice",24,"Female",9000,1L));
-//        employeeRepository.addEmployee(new Employee("Bob",28,"Male",8000,2L));
-//        //when
-//        mockMvcClient.perform(MockMvcRequestBuilders.get("/employees/" + alice.getId()))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.id").value(alice.getId()))
-//                .andExpect(jsonPath("$.name").value(alice.getName()))
-//                .andExpect(jsonPath("$.age").value(alice.getAge()))
-//                .andExpect(jsonPath("$.gender").value(alice.getGender()))
-//                .andExpect(jsonPath("$.salary").value(alice.getSalary()))
-//                .andExpect(jsonPath("$.companyId").value(alice.getCompanyId()));
-//    }
-//
+    @Test
+    void should_return_the_company_when_perform_get_companies_given_a_company_id() throws Exception{
+        //given
+        Company google = companyRepository.addCompany(new Company("Google"));
+        //when
+        mockMvcClient.perform(MockMvcRequestBuilders.get("/companies/" + google.getCompanyId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.companyId").value(google.getCompanyId()))
+                .andExpect(jsonPath("$.companyName").value(google.getCompanyName()));
+    }
 //    @Test
 //    void should_return_404_not_found_when_perform_get_employee_given_a_not_existing_id() throws Exception{
 //        //given
