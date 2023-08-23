@@ -1,6 +1,7 @@
-package com.thoughtworks.springbootemployee.controller;
+package com.thoughtworks.springbootemployee.repository;
 
 import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
+import com.thoughtworks.springbootemployee.model.Employee;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -14,12 +15,16 @@ public class EmployeeRepository {
     public static final long EMPTY_LIST_SIZE = 0L;
     public static final int ID_INCREMENT = 1;
 
+    public static final String FEMALE = "Female";
+
+    public static final String MALE = "Male";
+
     static {
-        employees.add(new Employee(1L, "Alice", 30, "Female", 5000, 1L));
-        employees.add(new Employee(2L, "Bob", 31, "Male", 5000, 1L));
-        employees.add(new Employee(3L, "Carl", 32, "Male", 5000, 2L));
-        employees.add(new Employee(4L, "David", 33, "Male", 5000, 3L));
-        employees.add(new Employee(5L, "Ellen", 34, "Female", 5000, 3L));
+        employees.add(new Employee(1L, "Alice", 30, FEMALE, 5000, 1L));
+        employees.add(new Employee(2L, "Bob", 31, MALE, 5000, 1L));
+        employees.add(new Employee(3L, "Carl", 32, MALE, 5000, 2L));
+        employees.add(new Employee(4L, "David", 33, MALE, 5000, 3L));
+        employees.add(new Employee(5L, "Ellen", 34, FEMALE, 5000, 3L));
     }
 
     public List<Employee> listAllEmployees() {
@@ -35,7 +40,7 @@ public class EmployeeRepository {
 
     public List<Employee> findEmployeesByGender(String gender) {
         return employees.stream()
-                .filter(employee -> employee.getGender().equals(gender))
+                .filter(employee -> employee.getGender().equalsIgnoreCase(gender))
                 .collect(Collectors.toList());
     }
 
@@ -45,11 +50,13 @@ public class EmployeeRepository {
                 .collect(Collectors.toList());
     }
 
-    public void addEmployee(Employee employee) {
+    public Employee addEmployee(Employee employee) {
         Long id = generateNextEmployeeId();
 
-        Employee newEmployee = new Employee(id, employee.getName(), employee.getAge(), employee.getGender(), employee.getSalary(), employee.getCompanyId());
+        Employee newEmployee = new Employee(id, employee.getName(), employee.getAge(),
+                employee.getGender(), employee.getSalary(), employee.getCompanyId());
         employees.add(newEmployee);
+        return newEmployee;
     }
 
     private Long generateNextEmployeeId() {
@@ -68,5 +75,9 @@ public class EmployeeRepository {
 
     public void deleteEmployee(Employee employee) {
         employees.remove(employee);
+    }
+
+    public void cleanAll() {
+        employees.clear();
     }
 }

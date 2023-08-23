@@ -1,12 +1,13 @@
-package com.thoughtworks.springbootemployee.controller;
+package com.thoughtworks.springbootemployee.model;
 
 public class Employee {
     private final Long companyId;
-    private final Long id;
+    private Long id;
     private final String name;
     private Integer age;
     private final String gender;
     private Integer salary;
+
 
     public Employee(Long id, String name, Integer age, String gender, Integer salary, Long companyId) {
         this.id = id;
@@ -16,6 +17,14 @@ public class Employee {
         this.salary = salary;
         this.companyId = companyId;
     }
+    public Employee(String name, Integer age, String gender, Integer salary, Long companyId) {
+        this.companyId = companyId;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.salary = salary;
+    }
+
 
     public Long getId() {
         return id;
