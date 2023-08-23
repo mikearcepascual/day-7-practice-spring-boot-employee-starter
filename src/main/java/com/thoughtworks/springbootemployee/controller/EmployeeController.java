@@ -39,11 +39,10 @@ public class EmployeeController {
 
     @PutMapping("/{id}")
     public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee newEmployee) {
-        Employee employee = employeeRepository.findByEmployeeId(id);
-        employee.setAge(newEmployee.getAge());
-        employee.setSalary(newEmployee.getSalary());
+        Employee employee = employeeRepository.updateEmployee(id,newEmployee);
         return employee;
     }
+
 
     @DeleteMapping("/{employeeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

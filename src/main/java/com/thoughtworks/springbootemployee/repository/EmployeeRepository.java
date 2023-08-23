@@ -20,11 +20,11 @@ public class EmployeeRepository {
     public static final String MALE = "Male";
 
     static {
-        employees.add(new Employee(1L, "Alice", 30, FEMALE, 5000, 1L,true));
-        employees.add(new Employee(2L, "Bob", 31, MALE, 5000, 1L,true));
-        employees.add(new Employee(3L, "Carl", 32, MALE, 5000, 2L,true));
-        employees.add(new Employee(4L, "David", 33, MALE, 5000, 3L,true));
-        employees.add(new Employee(5L, "Ellen", 34, FEMALE, 5000, 3L,true));
+        employees.add(new Employee(1L, "Alice", 30, FEMALE, 5000, 1L));
+        employees.add(new Employee(2L, "Bob", 31, MALE, 5000, 1L));
+        employees.add(new Employee(3L, "Carl", 32, MALE, 5000, 2L));
+        employees.add(new Employee(4L, "David", 33, MALE, 5000, 3L));
+        employees.add(new Employee(5L, "Ellen", 34, FEMALE, 5000, 3L));
     }
 
     public List<Employee> listAllEmployees() {
@@ -52,11 +52,11 @@ public class EmployeeRepository {
 
     public Employee addEmployee(Employee employee) {
         Long id = generateNextEmployeeId();
-        boolean isEmployeeActive = true;
-
         Employee newEmployee = new Employee(id, employee.getName(), employee.getAge(),
-                employee.getGender(), employee.getSalary(), employee.getCompanyId(), isEmployeeActive);
+                employee.getGender(), employee.getSalary(), employee.getCompanyId());
+
         employees.add(newEmployee);
+        newEmployee.setActive(Boolean.TRUE);
         return newEmployee;
     }
 
@@ -80,5 +80,11 @@ public class EmployeeRepository {
 
     public void cleanAll() {
         employees.clear();
+    }
+
+    public Employee updateEmployee(Long id, Employee employee) {
+        Employee employeeToUpdate = findByEmployeeId(id);
+        employeeToUpdate.merge(employee);
+        return employeeToUpdate;
     }
 }
