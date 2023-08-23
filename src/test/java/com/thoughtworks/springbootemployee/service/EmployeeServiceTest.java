@@ -7,8 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class EmployeeServiceTest {
     private EmployeeService employeeService;
@@ -23,8 +22,8 @@ public class EmployeeServiceTest {
     @Test
     void should_return_created_employee_when_create_given_employee_service_and_employee_with_valid_age() {
         //given
-        Employee employee = new Employee(null, "Lucy", 20, "Female", 3000, 1L,false);
-        Employee savedEmployee = new Employee(1L, "Lucy", 20, "Female", 3000, 1L,true);
+        Employee employee = new Employee(null, "Lucy", 20, "Female", 3000, 1L);
+        Employee savedEmployee = new Employee(1L, "Lucy", 20, "Female", 3000, 1L);
         when(mockedEmployeeRepository.addEmployee(employee)).thenReturn(savedEmployee);
         //when
         Employee employeeResponse = employeeService.create(employee);
@@ -40,7 +39,7 @@ public class EmployeeServiceTest {
     @Test
     void should_throw_exception_when_create_given_employee_service_and_employee_whose_age_is_less_than_18() {
         //given
-        Employee employee = new Employee(null, "Lucy", 17, "Female", 3000, 1L,false);
+        Employee employee = new Employee(null, "Lucy", 17, "Female", 3000, 1L);
         //when// then
         EmployeeCreateException employeeCreateException = assertThrows(EmployeeCreateException.class, () -> {
             employeeService.create(employee);
@@ -51,7 +50,7 @@ public class EmployeeServiceTest {
     @Test
     void should_throw_exception_when_create_given_employee_service_and_employee_whose_age_is_greater_than_65() {
         //given
-        Employee employee = new Employee(null, "Lucy", 66, "Female", 3000, 1L,false);
+        Employee employee = new Employee(null, "Lucy", 66, "Female", 3000, 1L);
         //when// then
         EmployeeCreateException employeeCreateException = assertThrows(EmployeeCreateException.class, () -> {
             employeeService.create(employee);
@@ -61,18 +60,40 @@ public class EmployeeServiceTest {
 
     @Test
     void should_return_employee_with_active_status_when_create_given_employee_service_and_employee_with_valid_age() {
-        Employee employee = new Employee(null, "Lucy", 20, "Female", 3000, 1L,false);
-        Employee savedEmployee = new Employee(1L, "Lucy", 20, "Female", 3000, 1L,true);
+        Employee employee = new Employee(null, "Lucy", 20, "Female", 3000, 1L);
+        Employee savedEmployee = new Employee(1L, "Lucy", 20, "Female", 3000, 1L);
+        savedEmployee.setActive(Boolean.TRUE);
         when(mockedEmployeeRepository.addEmployee(employee)).thenReturn(savedEmployee);
         //when
         Employee employeeResponse = employeeService.create(employee);
         //then
+        assertTrue(employeeResponse.isEmployeeActive());
         assertEquals(savedEmployee.getId(), employeeResponse.getId());
         assertEquals("Lucy", employeeResponse.getName());
         assertEquals(20, employeeResponse.getAge());
         assertEquals("Female", employeeResponse.getGender());
         assertEquals(3000, employeeResponse.getSalary());
         assertEquals(1, employeeResponse.getCompanyId());
-        assertTrue(employeeResponse.getEmployeeStatus());
+
+    }
+
+    @Test
+    void should_return_employee_with_active_status_false_when_delete_given_employee_service_and_employee_id() {
+        Employee employee = new Employee(1L, "Lucy", 20, "Female", 3000, 1L);
+        employee.setActive(Boolean.TRUE);
+        when(mockedEmployeeRepository.findByEmployeeId(employee.getId())).thenReturn(employee);
+        //when
+        employeeService.delete(employee.getId());
+        //then
+        verify(mockedEmployeeRepository).updateEmployee(eq(employee.getId()), argThat(tempEmployee -> {
+            assertFalse(tempEmployee.isEmployeeActive());
+            assertEquals("Lucy", tempEmployee.getName());
+            assertEquals(20, tempEmployee.getAge());
+            assertEquals("Female", tempEmployee.getGender());
+            assertEquals(3000, tempEmployee.getSalary());
+            assertEquals(1L, tempEmployee.getCompanyId());
+
+            return true;
+        }));
     }
 }

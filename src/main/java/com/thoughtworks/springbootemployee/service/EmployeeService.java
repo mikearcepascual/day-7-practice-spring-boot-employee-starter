@@ -16,4 +16,12 @@ public class EmployeeService {
        }
         return employeeRepository.addEmployee(employee);
     }
+
+
+    public void delete(Long id) {
+        Employee matchedEmployee = employeeRepository.findByEmployeeId(id);
+        matchedEmployee.setActive(Boolean.FALSE);
+
+        employeeRepository.updateEmployee(id,matchedEmployee);
+    }
 }
