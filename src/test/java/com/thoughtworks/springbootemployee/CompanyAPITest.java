@@ -90,14 +90,13 @@ class CompanyAPITest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.companyName").value(newCompany.getCompanyName()));
     }
-//
-//    @Test
-//    void should_return_204_no_content_when_perform_delete_employee_given_an_employee_id() throws Exception{
-//        //given
-//        Employee alice = employeeRepository.addEmployee(
-//                new Employee("Alice",23,"Female",9000,1L));
-//        //when, then
-//        mockMvcClient.perform(MockMvcRequestBuilders.delete("/employees/" + alice.getId()))
-//                .andExpect(status().isNoContent());
-//    }
+
+    @Test
+    void should_return_204_no_content_when_perform_delete_employee_given_an_employee_id() throws Exception{
+        //given
+        Company google = companyRepository.addCompany(new Company("Google"));
+        //when, then
+        mockMvcClient.perform(MockMvcRequestBuilders.delete("/companies/" + google.getCompanyId()))
+                .andExpect(status().isNoContent());
+    }
 }
