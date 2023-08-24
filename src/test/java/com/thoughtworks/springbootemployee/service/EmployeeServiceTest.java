@@ -115,7 +115,6 @@ public class EmployeeServiceTest {
             return true;
         }));
     }
-
     @Test
     void should_return_EmployeeInactiveException_when_update_given_employee_service_and_employee_and_is_active_false() {
         Employee employee = new Employee(1L, "Lucy", 20, "Female", 3000, 1L);
@@ -128,4 +127,5 @@ public class EmployeeServiceTest {
         );
         assertEquals("Employee is inactive", employeeInactiveException.getMessage());
     }
+    //TODO missing the service test for the methods moved to service such as listAllEmployees, findByEmployeeId, findEmployeesByGender,findEmployeesByCompanyId,listEmployeesByPage
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/companies")
 public class CompanyController {
-
+//TODO add constructor to do injection
     @Autowired
     private CompanyService companyService;
 

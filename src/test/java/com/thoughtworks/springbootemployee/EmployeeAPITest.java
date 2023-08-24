@@ -112,7 +112,7 @@ class EmployeeAPITest {
 				.andExpect(jsonPath("$.salary").value(9000))
 				.andExpect(jsonPath("$.companyId").value(1));
 	}
-
+//TODO verify if the update affects the name and other attributes as well
 	@Test
 	void should_return_employee_when_perform_put_employees_given_an_employee_id() throws Exception {
 	//given
@@ -139,7 +139,7 @@ class EmployeeAPITest {
 		mockMvcClient.perform(MockMvcRequestBuilders.delete("/employees/" + alice.getId()))
 				.andExpect(status().isNoContent());
 	}
-
+//TODO more than 2 employees
 	@Test
 	void should_return_list_of_employees_when_get_employees_given_pageNumber_and_pageSize() throws Exception {
 		//given
