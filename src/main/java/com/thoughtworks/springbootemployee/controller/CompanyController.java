@@ -2,9 +2,8 @@ package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
-import com.thoughtworks.springbootemployee.repository.CompanyRepository;
-import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import com.thoughtworks.springbootemployee.service.CompanyService;
+import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,7 @@ public class CompanyController {
     private CompanyService companyService;
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EmployeeService employeeService;
 
     @GetMapping
     public List<Company> listAllCompanies() {
@@ -33,7 +32,7 @@ public class CompanyController {
 
     @GetMapping("/{companyId}/employees")
     public List<Employee> listAllEmployees(@PathVariable Long companyId) {
-        return employeeRepository.findEmployeesByCompanyId(companyId);
+        return employeeService.findEmployeesByCompanyId(companyId);
     }
 
     @GetMapping(params = {"pageNumber", "pageSize"})

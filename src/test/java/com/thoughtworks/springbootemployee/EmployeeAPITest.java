@@ -143,13 +143,13 @@ class EmployeeAPITest {
 	@Test
 	void should_return_list_of_employees_when_get_employees_given_pageNumber_and_pageSize() throws Exception {
 		//given
-		Long pageNumber = 1L;
-		Long pageSize = 2L;
+		long pageNumber = 1L;
+		long pageSize = 2L;
 		Employee alice = employeeRepository.addEmployee(new Employee("Alice", 24, "Female", 9000, 1L));
 		Employee bob = employeeRepository.addEmployee(new Employee("Bob", 24, "Male", 9000, 2L));
 		MultiValueMap<String,String> paramsMap = new LinkedMultiValueMap<>();
-		paramsMap.add("pageNumber", pageNumber.toString());
-		paramsMap.add("pageSize", pageSize.toString());
+		paramsMap.add("pageNumber", Long.toString(pageNumber));
+		paramsMap.add("pageSize", Long.toString(pageSize));
 
 		//when
 		mockMvcClient.perform(MockMvcRequestBuilders.get("/employees/").params(paramsMap))

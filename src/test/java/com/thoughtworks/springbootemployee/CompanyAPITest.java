@@ -2,7 +2,6 @@ package com.thoughtworks.springbootemployee;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.springbootemployee.model.Company;
-import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -104,13 +103,13 @@ class CompanyAPITest {
     @Test
     void should_return_list_of_employees_when_get_employees_given_pageNumber_and_pageSize() throws Exception {
         //given
-        Long pageNumber = 1L;
-        Long pageSize = 2L;
+        long pageNumber = 1L;
+        long pageSize = 2L;
         Company google = companyRepository.addCompany(new Company("Google"));
         Company facebook = companyRepository.addCompany(new Company("Facebook"));
         MultiValueMap<String,String> paramsMap = new LinkedMultiValueMap<>();
-        paramsMap.add("pageNumber", pageNumber.toString());
-        paramsMap.add("pageSize", pageSize.toString());
+        paramsMap.add("pageNumber", Long.toString(pageNumber));
+        paramsMap.add("pageSize", Long.toString(pageSize));
 
         //when
         mockMvcClient.perform(MockMvcRequestBuilders.get("/companies/").params(paramsMap))

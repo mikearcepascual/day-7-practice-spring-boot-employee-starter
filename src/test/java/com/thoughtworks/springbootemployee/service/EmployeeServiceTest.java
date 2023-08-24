@@ -42,9 +42,8 @@ public class EmployeeServiceTest {
         //given
         Employee employee = new Employee(null, "Lucy", 17, "Female", 3000, 1L);
         //when// then
-        EmployeeCreateException employeeCreateException = assertThrows(EmployeeCreateException.class, () -> {
-            employeeService.createEmployee(employee);
-        });
+        EmployeeCreateException employeeCreateException = assertThrows(EmployeeCreateException.class, () ->
+            employeeService.createEmployee(employee));
         assertEquals("Employee must be 18-65 years old", employeeCreateException.getMessage());
     }
 
@@ -53,9 +52,8 @@ public class EmployeeServiceTest {
         //given
         Employee employee = new Employee(null, "Lucy", 66, "Female", 3000, 1L);
         //when// then
-        EmployeeCreateException employeeCreateException = assertThrows(EmployeeCreateException.class, () -> {
-            employeeService.createEmployee(employee);
-        });
+        EmployeeCreateException employeeCreateException = assertThrows(EmployeeCreateException.class, () ->
+            employeeService.createEmployee(employee));
         assertEquals("Employee must be 18-65 years old", employeeCreateException.getMessage());
     }
 
